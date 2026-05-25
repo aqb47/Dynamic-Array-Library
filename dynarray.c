@@ -61,7 +61,7 @@ int da_push(DynArray* dynarray, void* item) {
     // When array is full
     if (initial_size == initial_capacity) {
         // Attempt resize
-        if (da_resize(&dynarray) != 0) {
+        if (da_resize(dynarray) != 0) {
             return 1;
         }
     }
@@ -75,18 +75,11 @@ int da_push(DynArray* dynarray, void* item) {
 
 // Pop items from end of dynamic array
 void* da_pop(DynArray* dynarray) {
-    int initial_size = dynarray->size;
+    if (dynarray->size < 1) return NULL;
+    
+    dynarray->size -= 1;
 
-    // Decrease size by one
-    if (initial_size >= 1) {
-        dynarray->size -= 1;
-    }
-    else {
-        return NULL;
-    }
-
-    // Return popped element
-    return dynarray->data[initial_size - 1];
+    return dynarray->data[dynarray->size];
 }
 
 // Get item from dynamic array at specific index (0 - based)
@@ -116,8 +109,59 @@ int da_overwrite(DynArray* dynarray, int index, void* item) {
     return 0;
 }
 
-// int da_insert(DynArray* dynarray, int index, void* item) {
-//     if (index < 0 || index > dynarray->size - 1) {
-//         return 1;
-//     }
-// }
+// Replace element at index with item
+int da_insert(DynArray* dynarray, int index, void* item) {
+    int initial_size = dynarray->size;
+    int initial_capacity = dynarray->capacity;
+
+    // Check for correct usage of index
+    if (index < 0 || index > initial_size) {
+        return 1;
+    }
+
+    // Check if array is full
+    if (initial_size == initial_capacity) {
+        // If so attempt resize
+        if (da_resize(dynarray) != 0) {
+            return 1;
+        }
+    }
+
+    // Shift items after index to right
+    for (int i = initial_size; i > index; i--) {
+        dynarray->data[i] = dynarray->data[i - 1];
+    }
+
+    // Add itme to index
+    dynarray->data[index] = item;
+
+    // Increment size
+    dynarray->size += 1;
+
+    return 0;
+}
+
+// Remove element at index
+int da_delete(DynArray* dynarray, int index) {
+    int initial_size = dynarray->size;
+    
+    // Check for correct usage of index
+    if (index > initial_size - 1 || index < 0) {
+        return 1;
+    }
+
+    // Shift items after index to left
+    for (int i = index; i < initial_size - 1; i++) {
+        dynarray->data[i] = dynarray->data[i + 1];
+    }
+
+    // Decrement size
+    dynarray->size -= 1;
+
+    return 0;
+}
+
+// Return size of a dynamic array
+int da_size(DynArray *dynarray) {
+    return dynarray->size;
+}
