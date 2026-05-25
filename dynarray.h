@@ -1,6 +1,9 @@
 #ifndef DYNARRAY_H
 #define DYNARRAY_H
 
+#define DEFAULT_CAPACITY 1
+#define ERROR_DYNARRAY (DynArray) {-1, -1, NULL}
+
 // A pointer to a void pointer essentially implements an array of void pointers 
 // size - current number of elements stored, capacity - total elements allocated
 typedef struct {

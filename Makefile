@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -g
-TARGET = matrix
+TARGET = dynarray
 SRCS = main.c dynarray.c
 OBJS = $(SRCS:.c=.o)
 
@@ -15,5 +15,5 @@ $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm $(OBJS) $(TARGET)
 
