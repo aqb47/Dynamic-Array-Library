@@ -8,10 +8,12 @@ int main(void) {
     DynArray test_array = da_create(10);
 
     int random_num = 67;
-    int* random_num_ptr = &random_num;
+    int* random_num_ptr = malloc(sizeof(int));
+    *random_num_ptr = random_num;
 
     int second_random_num = 76;
-    int* second_random_num_ptr = &second_random_num;
+    int* second_random_num_ptr = malloc(sizeof(int));
+    *second_random_num_ptr = second_random_num;
 
     for (int i = 0; i < test_array.capacity; i++) {
         int* number_ptr = malloc(sizeof(int));
