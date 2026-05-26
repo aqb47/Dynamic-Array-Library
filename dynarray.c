@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include "dynarray.h"
 
@@ -27,7 +28,7 @@ DynArray da_create(int initial_capacity) {
     return dynarray;
 }
 
-// Free dynamic array
+// Free dynamic array. However it is up to user to free individual data of the dynamic array before using this function
 void da_free(DynArray* dynarray) {
     free(dynarray->data);
     
@@ -164,4 +165,29 @@ int da_delete(DynArray* dynarray, int index) {
 // Return size of a dynamic array
 int da_size(DynArray *dynarray) {
     return dynarray->size;
+}
+
+// Print a dynamic array. Function pointer will depend on data type (i.e. print_int() for integers)
+void print_da(DynArray* dynarray, void (*print_fn) (void*)) {
+    int size = dynarray->size;
+
+    for (int i = 0; i < size; i++) {
+        print_fn(dynarray->data[i]);
+    }
+}
+
+void print_int(void* int_ptr) {
+    printf("%i ", *(int *)int_ptr);
+}
+
+void print_char(void* char_ptr) {
+    printf("%c ", *(char *)char_ptr);
+}
+
+void print_float(void* float_ptr) {
+    printf("%f ", *(float *)float_ptr);
+}
+
+void print_string(void* string_ptr) {
+    printf("%s ", (char *)string_ptr);
 }

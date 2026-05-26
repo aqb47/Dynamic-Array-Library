@@ -26,4 +26,9 @@ int da_size(DynArray* dynarray);
 
 void print_da(DynArray* dynarray, void (*print_fn) (void*));
 
+void print_int(void* int_ptr);
+void print_char(void* char_ptr);
+void print_float(void* float_ptr);
+void print_string(void* string_ptr);
+
 #endif
